@@ -1,11 +1,13 @@
 "use client";
 // components/PhotoCapture.tsx
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 export const PhotoCapture: React.FC = () => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null); 
+  const streamRef = useRef<MediaStream | null>(null); // Store the video stream to stop it later
 
   // Start the video stream (camera)
   const startCamera = async () => {
@@ -14,6 +16,7 @@ export const PhotoCapture: React.FC = () => {
       if (video) {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
+        streamRef.current = stream;
       }
     } catch (err) {
       console.error('Error accessing camera: ', err);
@@ -21,10 +24,11 @@ export const PhotoCapture: React.FC = () => {
   };
 
   const stopCamera= () => {
-    const stream = videoRef.current?.srcObject as MediaStream;
-      if (stream) {
+    const video = videoRef.current;
+      if (video && video.srcObject) {
+        const stream = video.srcObject as MediaStream;
         const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
+        tracks.forEach(track => track.stop()); // Stop all tracks (video and audio if available)
       }
   }
 
@@ -77,7 +81,8 @@ export const PhotoCapture: React.FC = () => {
       {base64Image ? (
         <div>
           <h2>Captured Photo:</h2>
-          <img src={base64Image} alt="Captured" style={{ width: '100%', height: 'auto' }} />
+          {base64Image && <Image src={base64Image} alt="Captured" width={400} height={300}/>}
+          
           <h3>Base64 String:</h3>
           <textarea value={base64Image} readOnly rows={10} style={{ width: '100%' }} />
         </div>
