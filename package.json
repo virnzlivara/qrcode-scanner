@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@zxing/library": "^0.21.3",
     "next": "15.1.7",
     "react": "^19.0.0",
