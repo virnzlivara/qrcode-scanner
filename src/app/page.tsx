@@ -1,6 +1,4 @@
-import { PhotoCapture } from "@/components/PhotoCapture";
-import QRScanner from "@/components/QRScanner";
-import Image from "next/image";
+import { PhotoCapture } from "@/components/PhotoCapture"; 
 
 export default function Home() {
   return (

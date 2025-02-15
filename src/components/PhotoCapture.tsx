@@ -5,8 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 export const PhotoCapture: React.FC = () => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const streamRef = useRef<MediaStreamAudioDestinationNode | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null); 
 
   // Start the video stream (camera)
   const startCamera = async () => {
